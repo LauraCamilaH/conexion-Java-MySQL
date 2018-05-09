@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,19 +20,21 @@ import javax.swing.table.DefaultTableModel;
  * @author sala306
  */
 public class JFrameFormulario extends javax.swing.JFrame {
-     DefaultTableModel ptabla = new DefaultTableModel();
-Connection cn;
-PreparedStatement pst;
-ResultSet rs;
+
+    DefaultTableModel ptabla = new DefaultTableModel();
+    Connection cn;
+    PreparedStatement pst;
+    ResultSet resultadoConsulta;
+
     /**
      * Creates new form JFrameFormulario
      */
     public JFrameFormulario() {
         initComponents();
-        String tit[]={"Id","Código","Nombre","Fecha"};
-ptabla.setColumnIdentifiers(tit);
-tablaVariable.setModel(ptabla);
-this.Identificador.setVisible(false);
+        String tit[] = {"Id", "Código", "Nombre", "Fecha"};
+        ptabla.setColumnIdentifiers(tit);
+        tablaVariable.setModel(ptabla);
+        this.Identificador.setVisible(false);
     }
 
     /**
@@ -53,12 +56,12 @@ this.Identificador.setVisible(false);
         Identificador = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaVariable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        BotonRefresca = new javax.swing.JButton();
+        BotonInserta = new javax.swing.JButton();
+        BotonModifica = new javax.swing.JButton();
+        Belimina = new javax.swing.JButton();
+        BotonBusca = new javax.swing.JButton();
+        BLimpia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,27 +92,37 @@ this.Identificador.setVisible(false);
         ));
         jScrollPane1.setViewportView(tablaVariable);
 
-        jButton1.setText("Refresca");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BotonRefresca.setText("Refresca");
+        BotonRefresca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BotonRefrescaActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Inserta");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        BotonInserta.setText("Inserta");
+        BotonInserta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                BotonInsertaActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Modifica");
+        BotonModifica.setText("Modifica");
 
-        jButton4.setText("Elimina ");
+        Belimina.setText("Elimina ");
+        Belimina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BeliminaActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Busca");
+        BotonBusca.setText("Busca");
+        BotonBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonBuscaActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("Elimina ");
+        BLimpia.setText("Limpia");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -142,18 +155,18 @@ this.Identificador.setVisible(false);
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1)
+                    .addComponent(BotonRefresca)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(BotonInserta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
+                        .addComponent(BotonModifica)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)
+                        .addComponent(Belimina)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton5)
+                        .addComponent(BotonBusca)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton6)))
-                .addContainerGap(101, Short.MAX_VALUE))
+                        .addComponent(BLimpia)))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,14 +190,14 @@ this.Identificador.setVisible(false);
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(BotonRefresca)
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(BotonInserta)
+                    .addComponent(BotonModifica)
+                    .addComponent(Belimina)
+                    .addComponent(BotonBusca)
+                    .addComponent(BLimpia))
                 .addContainerGap(173, Short.MAX_VALUE))
         );
 
@@ -195,74 +208,113 @@ this.Identificador.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_campoCodigoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BotonRefrescaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRefrescaActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:
 
-DefaultTableModel ptabla2 =new DefaultTableModel();
-tablaVariable.setModel(ptabla2);
-try
-{
-cn = Connecta.abrebase();
-Statement s= cn.createStatement();
+        try {
+            cn = Connecta.abrebase();
+            Statement s = cn.createStatement();
 //consuta a mostrar
-String query = "select * from estudiante";
-rs = s.executeQuery(query);
-System.out.println(rs);
-ResultSetMetaData rsmd=rs.getMetaData();
-//obtenemos numero de columnas 
-int CanColumns = rsmd.getColumnCount();
-//comprobamos 
+            String query = "select * from estudiante";
+            resultadoConsulta = s.executeQuery(query);
+            cargarResultados(resultadoConsulta);
+            cn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);//
+        }
+    }//GEN-LAST:event_BotonRefrescaActionPerformed
+
+    private void cargarResultados(ResultSet resultadoConsulta) throws SQLException {
+        System.out.println(resultadoConsulta);
+        ResultSetMetaData rsmd = resultadoConsulta.getMetaData();
+        DefaultTableModel tablaResultados = new DefaultTableModel();
+        tablaVariable.setModel(tablaResultados);
+//obtenemos numero de columnas
+        int CanColumns = rsmd.getColumnCount();
+//comprobamos
 //System.out.println(CanColumns);
-for(int i=1;i<=CanColumns;i++)
-{
+        for (int i = 1; i <= CanColumns; i++) {
 //cargamos columnas en modelo
 //modelo.addColumn(rsmd.getColumnLabel(i));
-ptabla2.addColumn(rsmd.getColumnLabel(i));
-}
-while (rs.next())
-{
-//creamos array 
-Object[] fila=new Object[CanColumns];
+            tablaResultados.addColumn(rsmd.getColumnLabel(i));
+        }
+        while (resultadoConsulta.next()) { //Iterar a través de los resultados
+//creamos array
+            Object[] fila = new Object[CanColumns];
 //cargamos datos a modelo
-for(int i=0;i<CanColumns;i++)
-{
-fila[i] = rs.getObject(i+1);
+            for (int i = 0; i < CanColumns; i++) {
+                fila[i] = resultadoConsulta.getObject(i + 1);
 //System.out.print ln(fila[i]);
-}
+            }
 //adiciona fila
-ptabla2.addRow(fila);
-}
-cn.close();
-}
-catch(Exception e)
-{JOptionPane.showMessageDialog(null, e);}
-    }//GEN-LAST:event_jButton1ActionPerformed
+            tablaResultados.addRow(fila);
+        }
+    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
+    private void BotonInsertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInsertaActionPerformed
+
 // TODO add your handling code here:
-try {
-cn = Connecta.abrebase();
-pst = cn.prepareStatement("INSERT INTO estudiante (codigo, nombre,fecha) VALUES (?,?,?)");
-pst.setString(1, campoCodigo.getText());
-pst.setString(2, campoNombre.getText());
-pst.setDate(3, Date.valueOf(campoFecha.getText()));
-int res = pst.executeUpdate();
-if (res > 0) {
-mensaje( "Estudiante ingresado");
-blancos();
-} else {
-mensaje("Error");
-blancos();  
-}
-cn.close();
+        try {
+            cn = Connecta.abrebase();
+            pst = cn.prepareStatement("INSERT INTO estudiante (codigo, nombre,fecha) VALUES (?,?,?)");
+            pst.setString(1, campoCodigo.getText());
+            pst.setString(2, campoNombre.getText());
+            pst.setDate(3, Date.valueOf(campoFecha.getText()));
+            int res = pst.executeUpdate();
+            if (res > 0) {
+                mensaje("Estudiante ingresado");
+                blancos();
+            } else {
+                mensaje("Error");
+                blancos();
+            }
+            cn.close();
 
-} catch (Exception ex) {
-System.out.println(ex);
-}
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_BotonInsertaActionPerformed
+
+    private void BotonBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscaActionPerformed
+
+        try {
+            cn = Connecta.abrebase();
+            String sql = "SELECT * FROM estudiante WHERE codigo = ?";
+            PreparedStatement statement = cn.prepareStatement(sql);
+            statement.setInt(1, Integer.parseInt(campoCodigo.getText()));
+            ResultSet resultado = statement.executeQuery();
+            cargarResultados(resultado);
+            cn.close();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);//
+        }
+    }//GEN-LAST:event_BotonBuscaActionPerformed
+
+    private void BeliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BeliminaActionPerformed
+        try {
+            cn = Connecta.abrebase();
+            int filaSeleccionada = tablaVariable.getSelectedRow();
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(null, "Error seleccione una fila de la tabla");
+            } else {
+                String codigo = String.valueOf(tablaVariable.getValueAt(filaSeleccionada, 1));
+                String sql = "DELETE FROM estudiante Where codigo = ? ";
+                PreparedStatement statement = cn.prepareStatement(sql);
+                statement.setString(1, codigo);
+                int cantidadFilasModificadas = statement.executeUpdate();
+                if (cantidadFilasModificadas == 0) {
+                    JOptionPane.showMessageDialog(null, "No se eliminó ningun registro");//
+                }
+            }
+            cn.close();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);//
+        }
+        BotonRefrescaActionPerformed(evt);
+    }//GEN-LAST:event_BeliminaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,16 +352,16 @@ System.out.println(ex);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BLimpia;
+    private javax.swing.JButton Belimina;
+    private javax.swing.JButton BotonBusca;
+    private javax.swing.JButton BotonInserta;
+    private javax.swing.JButton BotonModifica;
+    private javax.swing.JButton BotonRefresca;
     private javax.swing.JTextField Identificador;
     private javax.swing.JTextField campoCodigo;
     private javax.swing.JTextField campoFecha;
     private javax.swing.JTextField campoNombre;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -318,19 +370,17 @@ System.out.println(ex);
     private javax.swing.JTable tablaVariable;
     // End of variables declaration//GEN-END:variables
 
-   public void blancos()
-{
-Identificador.setText(null);
-campoCodigo.setText(null);
-campoNombre.setText(null);
-campoFecha.setText(null);
-campoCodigo.setEditable(true);
-campoCodigo.requestFocus();
-}
-public void mensaje(String cad)
-{
-JOptionPane.showMessageDialog(null, cad); 
-}
+    public void blancos() {
+        Identificador.setText(null);
+        campoCodigo.setText(null);
+        campoNombre.setText(null);
+        campoFecha.setText(null);
+        campoCodigo.setEditable(true);
+        campoCodigo.requestFocus();
+    }
 
+    public void mensaje(String cad) {
+        JOptionPane.showMessageDialog(null, cad);
+    }
 
 }
