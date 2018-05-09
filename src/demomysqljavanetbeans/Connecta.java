@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Laura Hurtado.
  * @author sala306
  */
 public class Connecta {
