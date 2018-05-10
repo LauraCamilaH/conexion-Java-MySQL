@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -123,6 +124,11 @@ public class JFrameFormulario extends javax.swing.JFrame {
         });
 
         BLimpia.setText("Limpia");
+        BLimpia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BLimpiaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -221,6 +227,7 @@ public class JFrameFormulario extends javax.swing.JFrame {
             cargarResultados(resultadoConsulta);
             cn.close();
         } catch (Exception e) {
+             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e);//
         }
     }//GEN-LAST:event_BotonRefrescaActionPerformed
@@ -253,14 +260,14 @@ public class JFrameFormulario extends javax.swing.JFrame {
     }
 
     private void BotonInsertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInsertaActionPerformed
-
+       SimpleDateFormat formato = new SimpleDateFormat("yy-MM-dd");
 // TODO add your handling code here:
         try {
             cn = Connecta.abrebase();
             pst = cn.prepareStatement("INSERT INTO estudiante (codigo, nombre,fecha) VALUES (?,?,?)");
             pst.setString(1, campoCodigo.getText());
             pst.setString(2, campoNombre.getText());
-            pst.setDate(3, Date.valueOf(campoFecha.getText()));
+            pst.setDate(3,new java.sql.Date(formato.parse(campoFecha.getText()).getTime()));
             int res = pst.executeUpdate();
             if (res > 0) {
                 mensaje("Estudiante ingresado");
@@ -272,6 +279,7 @@ public class JFrameFormulario extends javax.swing.JFrame {
             cn.close();
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             System.out.println(ex);
         }
 
@@ -315,6 +323,22 @@ public class JFrameFormulario extends javax.swing.JFrame {
         }
         BotonRefrescaActionPerformed(evt);
     }//GEN-LAST:event_BeliminaActionPerformed
+
+    private void BLimpiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BLimpiaActionPerformed
+       
+       DefaultTableModel temp;
+       try{
+           temp=(DefaultTableModel) tablaVariable.getModel();
+           int a = temp.getRowCount();
+           for (int i=0;i<a;i++)
+               temp.removeRow(0);
+           
+       } catch (Exception e){
+           
+           System.out.println(e);
+       }
+       
+    }//GEN-LAST:event_BLimpiaActionPerformed
 
     /**
      * @param args the command line arguments
