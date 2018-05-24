@@ -16,16 +16,15 @@ import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author sala306
- */
 public class JFrameFormulario extends javax.swing.JFrame {
 
     DefaultTableModel ptabla = new DefaultTableModel();
     Connection cn;
     PreparedStatement pst;
     ResultSet resultadoConsulta;
+    private String Genero;
+    String NombreActividad[] = new String[3];
+    SimpleDateFormat formato = new SimpleDateFormat("yy-MM-dd");
 
     /**
      * Creates new form JFrameFormulario
@@ -47,36 +46,84 @@ public class JFrameFormulario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGrupoGenero = new javax.swing.ButtonGroup();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        PanelListaEstudiantes = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        campoCodigo = new javax.swing.JTextField();
-        campoNombre = new javax.swing.JTextField();
-        campoFecha = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         Identificador = new javax.swing.JTextField();
+        CampoBuscarCodigo = new javax.swing.JTextField();
+        BotonRefresca = new javax.swing.JButton();
+        BLimpia = new javax.swing.JButton();
+        Belimina = new javax.swing.JButton();
+        BotonModifica = new javax.swing.JButton();
+        BotonBusca = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaVariable = new javax.swing.JTable();
-        BotonRefresca = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        CheckBoxFutbol = new javax.swing.JCheckBox();
+        CheckBoxBaloncesto = new javax.swing.JCheckBox();
+        CheckBoxNatación = new javax.swing.JCheckBox();
+        GeneMasculino = new javax.swing.JRadioButton();
+        GeneFemenino = new javax.swing.JRadioButton();
+        campoNombre = new javax.swing.JTextField();
+        campoCodigo = new javax.swing.JTextField();
+        campoFecha = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         BotonInserta = new javax.swing.JButton();
-        BotonModifica = new javax.swing.JButton();
-        Belimina = new javax.swing.JButton();
-        BotonBusca = new javax.swing.JButton();
-        BLimpia = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        Notas = new javax.swing.JComboBox<>();
+        Asignatura = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Taller base de datos MySQL con UsbWebservice");
+        jLabel1.setText("******************** ESTUDIANTES CUN***********************");
 
-        jLabel2.setText("Código");
+        jLabel5.setText("Digite el codigo para buscar el estudiante ");
 
-        jLabel3.setText("Nombre");
-
-        jLabel4.setText("Fecha AA-MM-DD");
-
-        campoCodigo.addActionListener(new java.awt.event.ActionListener() {
+        CampoBuscarCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoCodigoActionPerformed(evt);
+                CampoBuscarCodigoActionPerformed(evt);
+            }
+        });
+
+        BotonRefresca.setText("Refrescar Datos ");
+        BotonRefresca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonRefrescaActionPerformed(evt);
+            }
+        });
+
+        BLimpia.setText("Limpia Tabla");
+        BLimpia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BLimpiaActionPerformed(evt);
+            }
+        });
+
+        Belimina.setText("Eliminar Estudiante ");
+        Belimina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BeliminaActionPerformed(evt);
+            }
+        });
+
+        BotonModifica.setText("Modificar Estudiante ");
+        BotonModifica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonModificaActionPerformed(evt);
+            }
+        });
+
+        BotonBusca.setText("Buscar");
+        BotonBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonBuscaActionPerformed(evt);
             }
         });
 
@@ -93,118 +140,255 @@ public class JFrameFormulario extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaVariable);
 
-        BotonRefresca.setText("Refresca");
-        BotonRefresca.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout PanelListaEstudiantesLayout = new javax.swing.GroupLayout(PanelListaEstudiantes);
+        PanelListaEstudiantes.setLayout(PanelListaEstudiantesLayout);
+        PanelListaEstudiantesLayout.setHorizontalGroup(
+            PanelListaEstudiantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+            .addGroup(PanelListaEstudiantesLayout.createSequentialGroup()
+                .addGroup(PanelListaEstudiantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelListaEstudiantesLayout.createSequentialGroup()
+                        .addComponent(BotonBusca)
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CampoBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelListaEstudiantesLayout.createSequentialGroup()
+                        .addComponent(BotonRefresca)
+                        .addGap(38, 38, 38)
+                        .addComponent(BLimpia)
+                        .addGap(41, 41, 41)
+                        .addComponent(Belimina)
+                        .addGap(18, 18, 18)
+                        .addComponent(BotonModifica)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(PanelListaEstudiantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelListaEstudiantesLayout.createSequentialGroup()
+                    .addContainerGap(522, Short.MAX_VALUE)
+                    .addComponent(Identificador, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(8, 8, 8))
+                .addGroup(PanelListaEstudiantesLayout.createSequentialGroup()
+                    .addGap(76, 76, 76)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        PanelListaEstudiantesLayout.setVerticalGroup(
+            PanelListaEstudiantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelListaEstudiantesLayout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(PanelListaEstudiantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BotonRefresca)
+                    .addComponent(BLimpia)
+                    .addComponent(Belimina)
+                    .addComponent(BotonModifica))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGroup(PanelListaEstudiantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BotonBusca)
+                    .addComponent(jLabel5)
+                    .addComponent(CampoBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70))
+            .addGroup(PanelListaEstudiantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelListaEstudiantesLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel1)
+                    .addGap(18, 18, 18)
+                    .addComponent(Identificador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(364, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Lista de Estudiantes ", PanelListaEstudiantes);
+
+        jLabel3.setText("Nombre");
+
+        jLabel2.setText("Código");
+
+        CheckBoxFutbol.setText("Futbol");
+        CheckBoxFutbol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonRefrescaActionPerformed(evt);
+                CheckBoxFutbolActionPerformed(evt);
             }
         });
 
-        BotonInserta.setText("Inserta");
+        CheckBoxBaloncesto.setText("Baloncesto");
+        CheckBoxBaloncesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxBaloncestoActionPerformed(evt);
+            }
+        });
+
+        CheckBoxNatación.setText("Natación");
+        CheckBoxNatación.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxNataciónActionPerformed(evt);
+            }
+        });
+
+        btnGrupoGenero.add(GeneMasculino);
+        GeneMasculino.setText("Masculino ");
+        GeneMasculino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GeneMasculinoActionPerformed(evt);
+            }
+        });
+
+        btnGrupoGenero.add(GeneFemenino);
+        GeneFemenino.setText("Femenino ");
+        GeneFemenino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GeneFemeninoActionPerformed(evt);
+            }
+        });
+
+        campoCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoCodigoActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Fecha Incripcion asignatura AAAA-MM-DD");
+
+        jLabel6.setText("Seleccione Genero del estudiante ");
+
+        jLabel7.setText("Actividades del estudiante ");
+
+        BotonInserta.setText("Insertar datos del estudiante ");
         BotonInserta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonInsertaActionPerformed(evt);
             }
         });
 
-        BotonModifica.setText("Modifica");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(116, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(CheckBoxNatación)
+                                .addGap(18, 18, 18)
+                                .addComponent(CheckBoxBaloncesto)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(GeneFemenino)
+                                .addGap(18, 18, 18)
+                                .addComponent(GeneMasculino)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(CheckBoxFutbol)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(BotonInserta)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(GeneMasculino)
+                    .addComponent(GeneFemenino))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CheckBoxFutbol)
+                    .addComponent(CheckBoxNatación)
+                    .addComponent(CheckBoxBaloncesto)
+                    .addComponent(jLabel7))
+                .addGap(49, 49, 49)
+                .addComponent(BotonInserta)
+                .addContainerGap(114, Short.MAX_VALUE))
+        );
 
-        Belimina.setText("Elimina ");
-        Belimina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BeliminaActionPerformed(evt);
-            }
-        });
+        GeneMasculino.getAccessibleContext().setAccessibleDescription("");
 
-        BotonBusca.setText("Busca");
-        BotonBusca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonBuscaActionPerformed(evt);
-            }
-        });
+        jTabbedPane1.addTab("Ingresar Estudiante", jPanel2);
 
-        BLimpia.setText("Limpia");
-        BLimpia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BLimpiaActionPerformed(evt);
-            }
-        });
+        Notas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        Asignatura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel8.setText("Consulta de asignaturas y notas del estudiante");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(Asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(145, 145, 145)
+                        .addComponent(Notas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(284, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(jLabel8)
+                .addGap(105, 105, 105)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Notas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(230, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Asiganturas y notas", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(campoNombre))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Identificador, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(56, 56, 56))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(BotonRefresca)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(BotonInserta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BotonModifica)
-                        .addGap(18, 18, 18)
-                        .addComponent(Belimina)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BotonBusca)
-                        .addGap(18, 18, 18)
-                        .addComponent(BLimpia)))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 116, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Identificador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3))
-                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BotonRefresca)
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonInserta)
-                    .addComponent(BotonModifica)
-                    .addComponent(Belimina)
-                    .addComponent(BotonBusca)
-                    .addComponent(BLimpia))
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 188, Short.MAX_VALUE))
         );
 
         pack();
@@ -227,7 +411,7 @@ public class JFrameFormulario extends javax.swing.JFrame {
             cargarResultados(resultadoConsulta);
             cn.close();
         } catch (Exception e) {
-             e.printStackTrace();
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e);//
         }
     }//GEN-LAST:event_BotonRefrescaActionPerformed
@@ -259,17 +443,29 @@ public class JFrameFormulario extends javax.swing.JFrame {
         }
     }
 
+    private Integer getIdGenerado(ResultSet rs) throws SQLException { // retorna el numero de Id en el que va
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return null;
+    }
+
+
     private void BotonInsertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInsertaActionPerformed
-       SimpleDateFormat formato = new SimpleDateFormat("yy-MM-dd");
-// TODO add your handling code here:
+
         try {
             cn = Connecta.abrebase();
-            pst = cn.prepareStatement("INSERT INTO estudiante (codigo, nombre,fecha) VALUES (?,?,?)");
+            String sql = "INSERT INTO estudiante (codigo, nombre,fecha_inscripcion,genero) VALUES (?,?,?,?)";
+            pst = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, campoCodigo.getText());
             pst.setString(2, campoNombre.getText());
-            pst.setDate(3,new java.sql.Date(formato.parse(campoFecha.getText()).getTime()));
+            pst.setDate(3, new java.sql.Date(formato.parse(campoFecha.getText()).getTime()));
+            pst.setString(4, Genero);
+
             int res = pst.executeUpdate();
             if (res > 0) {
+                Integer idEstudiante = getIdGenerado(pst.getGeneratedKeys());
+                insertarActividad(idEstudiante);
                 mensaje("Estudiante ingresado");
                 blancos();
             } else {
@@ -277,12 +473,12 @@ public class JFrameFormulario extends javax.swing.JFrame {
                 blancos();
             }
             cn.close();
+            
 
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex);
         }
-
     }//GEN-LAST:event_BotonInsertaActionPerformed
 
     private void BotonBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscaActionPerformed
@@ -291,12 +487,13 @@ public class JFrameFormulario extends javax.swing.JFrame {
             cn = Connecta.abrebase();
             String sql = "SELECT * FROM estudiante WHERE codigo = ?";
             PreparedStatement statement = cn.prepareStatement(sql);
-            statement.setInt(1, Integer.parseInt(campoCodigo.getText()));
+            statement.setInt(1, Integer.parseInt(CampoBuscarCodigo.getText()));
             ResultSet resultado = statement.executeQuery();
             cargarResultados(resultado);
             cn.close();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex);//
+            JOptionPane.showMessageDialog(null, ex);
+            System.out.println(ex);
         }
     }//GEN-LAST:event_BotonBuscaActionPerformed
 
@@ -325,24 +522,92 @@ public class JFrameFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_BeliminaActionPerformed
 
     private void BLimpiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BLimpiaActionPerformed
-       
-       DefaultTableModel temp;
-       try{
-           temp=(DefaultTableModel) tablaVariable.getModel();
-           int a = temp.getRowCount();
-           for (int i=0;i<a;i++)
-               temp.removeRow(0);
-           
-       } catch (Exception e){
-           
-           System.out.println(e);
-       }
-       
+
+        DefaultTableModel temp;
+        try {
+            temp = (DefaultTableModel) tablaVariable.getModel();
+            int a = temp.getRowCount();
+            for (int i = 0; i < a; i++) {
+                temp.removeRow(0);
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(e);
+        }
+
     }//GEN-LAST:event_BLimpiaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void GeneFemeninoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneFemeninoActionPerformed
+        Genero = "F";
+    }//GEN-LAST:event_GeneFemeninoActionPerformed
+
+
+    private void GeneMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneMasculinoActionPerformed
+        Genero = "M";
+    }//GEN-LAST:event_GeneMasculinoActionPerformed
+
+    private void CampoBuscarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoBuscarCodigoActionPerformed
+
+    }//GEN-LAST:event_CampoBuscarCodigoActionPerformed
+
+    private void CheckBoxFutbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxFutbolActionPerformed
+       if (CheckBoxFutbol.isSelected()){
+        NombreActividad[0] = "Futbol";
+       }
+       else{
+           NombreActividad [0]=null;
+       }
+    }//GEN-LAST:event_CheckBoxFutbolActionPerformed
+
+    private void CheckBoxNataciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxNataciónActionPerformed
+       if (CheckBoxNatación.isSelected()){
+        NombreActividad[1] = "Natacion";
+       }
+       else{
+           NombreActividad [1]=null;
+       }
+    }//GEN-LAST:event_CheckBoxNataciónActionPerformed
+
+    private void CheckBoxBaloncestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxBaloncestoActionPerformed
+        if (CheckBoxBaloncesto.isSelected()) {
+            NombreActividad[2] = "baloncesto";
+        } else {
+            NombreActividad[2] = null;
+        }
+    }//GEN-LAST:event_CheckBoxBaloncestoActionPerformed
+
+    private void BotonModificaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonModificaActionPerformed
+        try {
+            cn = Connecta.abrebase();
+            String sql = "UPDATE estudiante SET codigo = ?, nombre = ?, fecha_incripcion=?,genero=? where codigo = ?";
+            pst = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = cn.prepareStatement(sql);
+            pst.setString(1, campoCodigo.getText());
+            pst.setString(2, campoNombre.getText());
+
+            pst.setDate(3, new java.sql.Date(formato.parse(campoFecha.getText()).getTime()));
+            pst.setString(4, Genero);
+            int res = pst.executeUpdate();
+            if (res > 0) {
+                mensaje("datos modificados");
+                blancos();
+            } else {
+                mensaje("Error");
+                blancos();
+            }
+            cn.close();
+            ResultSet resultado = statement.executeQuery();
+            cargarResultados(resultado);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            System.out.println(ex);
+        }
+
+
+    }//GEN-LAST:event_BotonModificaActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -376,13 +641,23 @@ public class JFrameFormulario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Asignatura;
     private javax.swing.JButton BLimpia;
     private javax.swing.JButton Belimina;
     private javax.swing.JButton BotonBusca;
     private javax.swing.JButton BotonInserta;
     private javax.swing.JButton BotonModifica;
     private javax.swing.JButton BotonRefresca;
+    private javax.swing.JTextField CampoBuscarCodigo;
+    private javax.swing.JCheckBox CheckBoxBaloncesto;
+    private javax.swing.JCheckBox CheckBoxFutbol;
+    private javax.swing.JCheckBox CheckBoxNatación;
+    private javax.swing.JRadioButton GeneFemenino;
+    private javax.swing.JRadioButton GeneMasculino;
     private javax.swing.JTextField Identificador;
+    private javax.swing.JComboBox<String> Notas;
+    private javax.swing.JPanel PanelListaEstudiantes;
+    private javax.swing.ButtonGroup btnGrupoGenero;
     private javax.swing.JTextField campoCodigo;
     private javax.swing.JTextField campoFecha;
     private javax.swing.JTextField campoNombre;
@@ -390,7 +665,14 @@ public class JFrameFormulario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tablaVariable;
     // End of variables declaration//GEN-END:variables
 
@@ -401,6 +683,40 @@ public class JFrameFormulario extends javax.swing.JFrame {
         campoFecha.setText(null);
         campoCodigo.setEditable(true);
         campoCodigo.requestFocus();
+
+    }
+
+    private void insertarActividad(Integer idEstudiante) {
+        if (CheckBoxBaloncesto.isSelected()) {
+            
+            insertarInscripcionActividad(idEstudiante, 3);
+        }
+        if (CheckBoxFutbol.isSelected()) {
+          
+            insertarInscripcionActividad(idEstudiante, 1);
+        }
+        if (CheckBoxNatación.isSelected())
+        {
+            insertarInscripcionActividad(idEstudiante, 2);
+        }
+    }
+
+    private void insertarInscripcionActividad(Integer idEstudiante, Integer idActividad) {
+        try {
+            cn = Connecta.abrebase();
+            String sql = "INSERT INTO Inscripcion_actividad (estudiante_id, Actividad_id) VALUES (?,?,)";
+
+            pst.setInt(1,.idEstudiante.getText());
+            pst.setInt(2, InsertarActividad.getText());
+            int res = pst.executeUpdate();   
+            cn.close();     
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println(ex);
+        
+    }                                         
+       
     }
 
     public void mensaje(String cad) {
