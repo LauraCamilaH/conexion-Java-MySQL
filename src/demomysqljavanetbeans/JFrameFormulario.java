@@ -705,9 +705,8 @@ public class JFrameFormulario extends javax.swing.JFrame {
         try {
             cn = Connecta.abrebase();
             String sql = "INSERT INTO Inscripcion_actividad (estudiante_id, Actividad_id) VALUES (?,?,)";
-
-            pst.setInt(1,.idEstudiante.getText());
-            pst.setInt(2, InsertarActividad.getText());
+            pst.setInt(1, idEstudiante);
+            pst.setInt(2, idActividad);
             int res = pst.executeUpdate();   
             cn.close();     
 
