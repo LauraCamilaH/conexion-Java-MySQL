@@ -51,6 +51,9 @@ public class JFrameFormulario extends javax.swing.JFrame {
     public void cargarMaterias() {
         //indices(filaSeleccionada,1) -> id  -> cargarCheckbox()
         int filaSeleccionada = tablaVariable.getSelectedRow();
+        if(filaSeleccionada == -1){
+            return;
+        }
         String idEstudiante = String.valueOf(tablaVariable.getValueAt(filaSeleccionada, 1));
         cargarCheckBox(idEstudiante);
     }
@@ -119,12 +122,13 @@ public class JFrameFormulario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         BotonInserta = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
+        CheckBoxProgramacion = new javax.swing.JCheckBox();
+        CheckBoxFisica = new javax.swing.JCheckBox();
+        CheckBoxBaseDatos = new javax.swing.JCheckBox();
+        CheckBoxRedes = new javax.swing.JCheckBox();
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -353,15 +357,22 @@ public class JFrameFormulario extends javax.swing.JFrame {
 
         jLabel12.setText("Inscripcion de asignaturas ");
 
-        jCheckBox1.setText("Programacion ");
+        CheckBoxProgramacion.setText("Programacion ");
+        CheckBoxProgramacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxProgramacionActionPerformed(evt);
+            }
+        });
 
-        jCheckBox2.setText("Fisica");
+        CheckBoxFisica.setText("Fisica");
 
-        jCheckBox3.setText("Bases de datos ");
+        CheckBoxBaseDatos.setText("Bases de datos ");
 
-        jCheckBox4.setText("Redes");
+        CheckBoxRedes.setText("Redes");
 
         jButton1.setText("Insertar asignaturas ");
+
+        jLabel16.setText("Selecione las materias a inscribir ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -369,18 +380,22 @@ public class JFrameFormulario extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel16)
+                        .addGap(18, 18, 18)
+                        .addComponent(CheckBoxProgramacion)))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox2)
+                .addComponent(CheckBoxFisica)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox3)
+                .addComponent(CheckBoxBaseDatos)
                 .addGap(26, 26, 26)
-                .addComponent(jCheckBox4)
+                .addComponent(CheckBoxRedes)
                 .addGap(73, 73, 73))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
@@ -393,7 +408,7 @@ public class JFrameFormulario extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(116, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,41 +442,47 @@ public class JFrameFormulario extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(GeneMasculino)
+                            .addComponent(GeneFemenino))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CheckBoxFutbol)
+                            .addComponent(CheckBoxNatación)
+                            .addComponent(CheckBoxBaloncesto)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addComponent(BotonInserta)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(GeneMasculino)
-                    .addComponent(GeneFemenino))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CheckBoxFutbol)
-                    .addComponent(CheckBoxNatación)
-                    .addComponent(CheckBoxBaloncesto)
-                    .addComponent(jLabel7))
-                .addGap(18, 18, 18)
-                .addComponent(BotonInserta)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                    .addComponent(CheckBoxProgramacion)
+                    .addComponent(CheckBoxFisica)
+                    .addComponent(CheckBoxBaseDatos)
+                    .addComponent(CheckBoxRedes)
+                    .addComponent(jLabel16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -478,7 +499,7 @@ public class JFrameFormulario extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setText("Nota 1");
+        jLabel11.setText("Corte 1");
 
         jButton2.setText("Insertar notas del estudiante");
 
@@ -490,7 +511,6 @@ public class JFrameFormulario extends javax.swing.JFrame {
             }
         });
 
-        jTextField3.setText("jTextField3");
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -503,9 +523,9 @@ public class JFrameFormulario extends javax.swing.JFrame {
             }
         });
 
-        jLabel14.setText("Nota 2");
+        jLabel14.setText("Corte 2");
 
-        jLabel15.setText("Nota 3");
+        jLabel15.setText("Corte 3");
 
         jButton3.setText("Calcular promedio notas");
 
@@ -849,6 +869,10 @@ public class JFrameFormulario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_IdentificadorActionPerformed
 
+    private void CheckBoxProgramacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxProgramacionActionPerformed
+      
+    }//GEN-LAST:event_CheckBoxProgramacionActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -889,8 +913,12 @@ public class JFrameFormulario extends javax.swing.JFrame {
     private javax.swing.JButton BotonModifica;
     private javax.swing.JButton BotonRefresca;
     private javax.swing.JCheckBox CheckBoxBaloncesto;
+    private javax.swing.JCheckBox CheckBoxBaseDatos;
+    private javax.swing.JCheckBox CheckBoxFisica;
     private javax.swing.JCheckBox CheckBoxFutbol;
     private javax.swing.JCheckBox CheckBoxNatación;
+    private javax.swing.JCheckBox CheckBoxProgramacion;
+    private javax.swing.JCheckBox CheckBoxRedes;
     private javax.swing.JRadioButton GeneFemenino;
     private javax.swing.JRadioButton GeneMasculino;
     private javax.swing.JTextField Identificador;
@@ -905,10 +933,6 @@ public class JFrameFormulario extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -916,6 +940,7 @@ public class JFrameFormulario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
