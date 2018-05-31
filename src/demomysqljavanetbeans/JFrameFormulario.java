@@ -5,6 +5,7 @@
  */
 package demomysqljavanetbeans;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class JFrameFormulario extends javax.swing.JFrame {
@@ -34,6 +37,43 @@ public class JFrameFormulario extends javax.swing.JFrame {
         ptabla.setColumnIdentifiers(tit);
         tablaVariable.setModel(ptabla);
         this.Identificador.setVisible(false);
+
+        tablaVariable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    cargarMaterias();
+                }
+            }
+        });
+    }
+
+    public void cargarMaterias() {
+        //indices(filaSeleccionada,1) -> id  -> cargarCheckbox()
+        int filaSeleccionada = tablaVariable.getSelectedRow();
+        String idEstudiante = String.valueOf(tablaVariable.getValueAt(filaSeleccionada, 1));
+        cargarCheckBox(idEstudiante);
+    }
+
+    public void cargarCheckBox(String idEstudiante) {
+        try {
+            cn = Connecta.abrebase();
+            String sql = "SELECT  a.nombre FROM estudiante e JOIN inscripcion_asignatura ia ON (ia.`ESTUDIANTE_ID`=e.`ID`)JOIN asignatura a ON (a.`ID`=ia.`ASIGNATURA_ID`) WHERE e.id=?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, idEstudiante);
+           ResultSet resultado = ps.executeQuery();
+            
+           cbxAsignatura.removeAllItems();
+            while (resultado.next()) {
+               cbxAsignatura.addItem(resultado.getString("NOMBRE"));
+            }
+
+            resultado.close();
+        } catch (SQLException ex) {
+            //JOptionPane.showMessageDialog(null, ex);
+            ex.printStackTrace();
+            System.out.println(ex);
+        }
     }
 
     /**
@@ -105,6 +145,12 @@ public class JFrameFormulario extends javax.swing.JFrame {
         jLabel1.setText("******************** ESTUDIANTES CUN***********************");
 
         jLabel5.setText("Digite el codigo para buscar el estudiante ");
+
+        Identificador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IdentificadorActionPerformed(evt);
+            }
+        });
 
         BotonRefresca.setText("Refrescar Datos ");
         BotonRefresca.addActionListener(new java.awt.event.ActionListener() {
@@ -482,29 +528,26 @@ public class JFrameFormulario extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                    .addComponent(jTextField2))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton2))
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3))
                         .addContainerGap(250, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(62, Short.MAX_VALUE)
                 .addComponent(jLabel13)
                 .addGap(80, 80, 80))
         );
@@ -534,16 +577,15 @@ public class JFrameFormulario extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ingresar  notas del estudiante", jPanel1);
@@ -638,7 +680,7 @@ public class JFrameFormulario extends javax.swing.JFrame {
             if (filasInsertadas > 0) {
                 Integer idEstudiante = getIdGenerado(estamento.getGeneratedKeys());
                 insertarActividad(idEstudiante);
-            
+
                 mensaje("Estudiante ingresado");
                 blancos();
             } else {
@@ -783,24 +825,8 @@ public class JFrameFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonModificaActionPerformed
 
     private void cbxAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAsignaturaActionPerformed
-    
-             try{
-   cn = Connecta.abrebase() ;
-   String sql = "SELECT * FROM cun.asigatura";
-   PreparedStatement ps =cn.prepareStatement(sql);
-   ResultSet resultado = ps.executeQuery();
-    
-    while (resultado.next()){
-        cbxAsignatura.addItem(resultado.getString("NOMBRE"));
-    }
-    
-   resultado.close();
-}
-        catch (SQLException ex) {
-            //JOptionPane.showMessageDialog(null, ex);
-            ex.printStackTrace();
-            System.out.println(ex);
-        }
+
+
     }//GEN-LAST:event_cbxAsignaturaActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -818,6 +844,10 @@ public class JFrameFormulario extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void IdentificadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdentificadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IdentificadorActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
